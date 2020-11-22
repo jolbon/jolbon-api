@@ -130,3 +130,9 @@ gradle-app.setting
 
 ### Gradle Patch ###
 **/build/
+
+### dotenv ###
+.env
+
+### Database Volume ###
+db/data
