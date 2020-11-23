@@ -14,41 +14,49 @@ CREATE TABLE professors (
     FOREIGN KEY (department_id) REFERENCES departments (id) ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
-CREATE TABLE user_contacts (
-    `id`              INT           NOT NULL AUTO_INCREMENT,
-    `email`           VARCHAR(100)  NOT NULL UNIQUE,
-    `phone`           VARCHAR(25)   NULL UNIQUE,
-    `kakao_id`        VARCHAR(25)   NULL UNIQUE,
-    `openkakao_link`  VARCHAR(100)  NULL UNIQUE,
-    PRIMARY KEY (id)
-);
-
-CREATE TABLE user_experience (
-    `id`       INT   NOT NULL AUTO_INCREMENT,
-    `content`  TEXT  NULL,
-    PRIMARY KEY (id)
-);
-
 CREATE TABLE users (
     `id`             INT          NOT NULL,
     `department_id`  INT          NOT NULL,
     `grade`          TINYINT      NOT NULL,
     `name`           VARCHAR(25)  NOT NULL,
-    `password`       CHAR(96)     NOT NULL,
     `age`            TINYINT      NULL,
     `gender`         TINYINT      NULL,
     `residence`      VARCHAR(50)  NULL,
     `country`        VARCHAR(50)  NULL,
     `profile_link`   VARCHAR(50)  NULL,
-    `contact_id`     INT          NULL,
-    `experience_id`  INT          NULL,
     `created_at`     TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at`     TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `deleted_at`     TIMESTAMP    NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (department_id) REFERENCES departments (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
-    FOREIGN KEY (contact_id) REFERENCES user_contacts (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
-    FOREIGN KEY (experience_id) REFERENCES user_experience (id) ON UPDATE RESTRICT ON DELETE RESTRICT
+    FOREIGN KEY (department_id) REFERENCES departments (id) ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+
+CREATE TABLE user_contacts (
+    `id`              INT           NOT NULL,
+    `email`           VARCHAR(100)  NOT NULL UNIQUE,
+    `phone`           VARCHAR(25)   NULL UNIQUE,
+    `kakao_id`        VARCHAR(25)   NULL UNIQUE,
+    `openkakao_link`  VARCHAR(100)  NULL UNIQUE,
+    `updated_at`      TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id) REFERENCES users (id) ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+
+CREATE TABLE user_experience (
+    `id`          INT        NOT NULL,
+    `content`     TEXT       NULL,
+    `updated_at`  TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id) REFERENCES users (id) ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+
+CREATE TABLE user_logins (
+    `id`               INT          NOT NULL,
+    `password_hashed`  CHAR(96)     NOT NULL,
+    `verified`         TINYINT      NOT NULL,
+    `updated_at`       TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id) REFERENCES users (id) ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 CREATE TABLE user_security_logs (
@@ -85,6 +93,17 @@ CREATE TABLE recruits (
     FOREIGN KEY (department_id) REFERENCES departments (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
     FOREIGN KEY (professor_id) REFERENCES professors (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
     FOREIGN KEY (author_id) REFERENCES users (id) ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+
+CREATE TABLE recruit_contact_visibilities (
+    `id`              BIGINT     NOT NULL,
+    `email`           TINYINT    NOT NULL,
+    `phone`           TINYINT    NOT NULL,
+    `kakao_id`        TINYINT    NOT NULL,
+    `openkakao_link`  TINYINT    NOT NULL,
+    `updated_at`      TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id) REFERENCES recruits (id) ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 CREATE TABLE recruit_likes (
