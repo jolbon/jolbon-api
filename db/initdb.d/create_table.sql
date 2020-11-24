@@ -31,6 +31,15 @@ CREATE TABLE users (
     FOREIGN KEY (department_id) REFERENCES departments (id) ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
+CREATE TABLE user_auth (
+    `id`               INT        NOT NULL,
+    `password_hashed`  CHAR(96)   NOT NULL,
+    `verified`         TINYINT    NOT NULL,
+    `updated_at`       TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id) REFERENCES users (id) ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+
 CREATE TABLE user_contacts (
     `id`              INT           NOT NULL,
     `email`           VARCHAR(100)  NOT NULL UNIQUE,
@@ -46,15 +55,6 @@ CREATE TABLE user_experience (
     `id`          INT        NOT NULL,
     `content`     TEXT       NULL,
     `updated_at`  TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (id),
-    FOREIGN KEY (id) REFERENCES users (id) ON UPDATE RESTRICT ON DELETE RESTRICT
-);
-
-CREATE TABLE user_logins (
-    `id`               INT          NOT NULL,
-    `password_hashed`  CHAR(96)     NOT NULL,
-    `verified`         TINYINT      NOT NULL,
-    `updated_at`       TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     FOREIGN KEY (id) REFERENCES users (id) ON UPDATE RESTRICT ON DELETE RESTRICT
 );
