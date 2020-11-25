@@ -135,4 +135,5 @@ gradle-app.setting
 .env
 
 ### Database Volume ###
-db/data
+db/data/*
+!db/data/*.csv
