@@ -3,7 +3,11 @@ package kr.igrus.jolbon.entity;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,9 +21,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import kr.igrus.jolbon.data.Gender;
 
 @Entity(name = "users")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Data @AllArgsConstructor @NoArgsConstructor
 public class UserDetails implements org.springframework.security.core.userdetails.UserDetails {
     @Id
     private int id;
@@ -51,9 +53,8 @@ public class UserDetails implements org.springframework.security.core.userdetail
 
     private LocalDateTime deletedAt;
 
+    @OneToOne(cascade = {CascadeType.ALL}) @JoinColumn(name = "id")
     @NonNull
-    @OneToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "id")
     private UserAuth userAuth;
 
     @Override

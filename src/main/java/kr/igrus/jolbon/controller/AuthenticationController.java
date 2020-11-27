@@ -17,8 +17,7 @@ import kr.igrus.jolbon.service.UserDetailsServiceImpl;
 
 @RestController
 public class AuthenticationController {
-    @Data
-    @AllArgsConstructor
+    @Data @AllArgsConstructor
     public static class AuthenticationRequest {
         private int id;
 
@@ -26,15 +25,14 @@ public class AuthenticationController {
         private String password;
     }
 
-    @Data
-    @AllArgsConstructor
+    @Data @AllArgsConstructor
     public static class AuthenticationResponse {
-        @NonNull
         @JsonProperty("access_token")
+        @NonNull
         private String accessToken;
 
-        @NonNull
         @JsonProperty("token_type")
+        @NonNull
         private String tokenType;
 
         @JsonProperty("expires_in")

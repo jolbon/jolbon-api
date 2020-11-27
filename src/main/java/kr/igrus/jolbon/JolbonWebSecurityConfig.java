@@ -15,8 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import kr.igrus.jolbon.filter.JwtRequestFilter;
 import kr.igrus.jolbon.service.UserDetailsServiceImpl;
 
-@Configuration
-@EnableWebSecurity
+@Configuration @EnableWebSecurity
 public class JolbonWebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtRequestFilter jwtRequestFilter;
     private final UserDetailsServiceImpl userDetailsService;

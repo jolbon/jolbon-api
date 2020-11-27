@@ -12,9 +12,7 @@ import lombok.NonNull;
 import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity(name = "user_auth")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Data @AllArgsConstructor @NoArgsConstructor
 public class UserAuth {
     @Id
     private int id;
@@ -25,7 +23,7 @@ public class UserAuth {
 
     private Boolean verified;
 
-    @NonNull
     @LastModifiedDate
+    @NonNull
     private LocalDateTime updatedAt;
 }
