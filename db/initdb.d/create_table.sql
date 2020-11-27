@@ -84,6 +84,7 @@ CREATE TABLE recruits (
     `title`            VARCHAR(50)  NOT NULL,
     `content`          TEXT         NOT NULL,
     `author_id`        INT          NOT NULL,
+    `anonymous`        TINYINT      NOT NULL,
     `views`            INT          NOT NULL,
     `likes`            INT          NOT NULL,
     `created_at`       TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
