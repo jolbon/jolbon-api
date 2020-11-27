@@ -8,11 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import kr.igrus.jolbon.component.JwtUtil;
+import kr.igrus.jolbon.entity.UserDetails;
 import kr.igrus.jolbon.service.UserDetailsServiceImpl;
 
 @RestController
@@ -41,10 +42,12 @@ public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
     private final UserDetailsServiceImpl userDetailsService;
+    private final JwtUtil jwtUtil;
 
-    public AuthenticationController(AuthenticationManager authenticationManager, UserDetailsServiceImpl userDetailsService) {
+    public AuthenticationController(AuthenticationManager authenticationManager, UserDetailsServiceImpl userDetailsService, JwtUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
+        this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/auth")
@@ -54,10 +57,8 @@ public class AuthenticationController {
 
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(id, password));
-            final UserDetails user = userDetailsService.loadUserByUsername(String.valueOf(id));
-
-            final String token = "aaa.bbb.ccc";
-            return ResponseEntity.ok(new AuthenticationResponse(token, "Bearer", 3600));
+            final UserDetails user = (UserDetails) userDetailsService.loadUserByUsername(String.valueOf(id));
+            return ResponseEntity.ok(jwtUtil.generateToken(user));
         } catch (BadCredentialsException e) {
             throw new Exception("the credentials are invalid");
         }

@@ -1,0 +1,5 @@
+jwt:
+  issuer: jolbon
+  audience: jolbon
+  expiration: 3600
+  secret: jwt1234
