@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import kr.igrus.jolbon.component.JwtUtil;
 import kr.igrus.jolbon.entity.UserDetails;
 import kr.igrus.jolbon.service.UserDetailsServiceImpl;
+import kr.igrus.jolbon.util.JwtUtil;
 
 @RestController
 public class AuthenticationController {
